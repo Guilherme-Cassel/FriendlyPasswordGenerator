@@ -23,23 +23,25 @@ public class Randomizer
 
     public string RandomWord()
     {
-        var file = Properties.Resources.palavras;
+        //var file = Properties.Resources.palavras;
 
-        var wordsList = file.Split('\n');
+        //var wordsList = file.Split('\n');
 
-        var word = ToPascalCase(wordsList[@Random.Next(0, wordsList.Length - 1)]);
+        //var word = ToPascalCase(wordsList[@Random.Next(0, wordsList.Length - 1)]);
 
-        if (word.Contains('-') ||
-            word.Contains('.'))
-            return RandomWord();
+        //if (word.Contains('-') ||
+        //    word.Contains('.'))
+        //    return RandomWord();
 
-        if (!AllowNonAsciiCaracters)
-        {
-            if (word.Any(x => (int)x >= 128))
-                return RandomWord();
-        }
+        //if (!AllowNonAsciiCaracters)
+        //{
+        //    if (word.Any(x => (int)x >= 128))
+        //        return RandomWord();
+        //}
 
-        return ToPascalCase(word);
+        //return ToPascalCase(word);
+
+        return "";
     }
 
     public static string ToPascalCase(string @string)

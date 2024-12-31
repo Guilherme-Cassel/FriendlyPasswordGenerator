@@ -8,15 +8,15 @@ public class Program
     [STAThread]
     static void Main()
     {
-        ConsoleUtility.WriteOn($"""
-            Copy Text = Enter
-            Generate New = Any Other Key
-            AllowNonAsciiCaracters = F8
-            Choose Amount of Words = F9
-            Choose new Lenght = F10
+        //ConsoleUtility.WriteOn($"""
+        //    Copy Text = Enter
+        //    Generate New = Any Other Key
+        //    AllowNonAsciiCaracters = F8
+        //    Choose Amount of Words = F9
+        //    Choose new Lenght = F10
 
-            """,
-            ConsoleColor.Yellow);
+        //    """,
+        //    ConsoleColor.Yellow);
 
         NewPassword().GetAwaiter().GetResult(); //this will never throw an error
 
@@ -28,7 +28,7 @@ public class Program
             }
             catch (TimeoutException ex)
             {
-                ConsoleUtility.WriteOn($"{ex.Message}", ConsoleColor.Yellow);
+                //ConsoleUtility.WriteOn($"{ex.Message}", ConsoleColor.Yellow);
             }
         }
     }
@@ -37,8 +37,8 @@ public class Program
     {
         await passwordGenerator.GetNewPassword();
 
-        ConsoleUtility.WriteOn($"New Password: {passwordGenerator.CurrentPassword}",
-            ConsoleColor.Green);
+        //ConsoleUtility.WriteOn($"New Password: {passwordGenerator.CurrentPassword}",
+        //    ConsoleColor.Green);
     }
 
     private async static Task TreatInput()

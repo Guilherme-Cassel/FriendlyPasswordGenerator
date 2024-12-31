@@ -8,7 +8,7 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-namespace FriendlyPasswordGenerator.Properties {
+namespace FriendlyPasswordGenerator.Model.Properties {
     using System;
     
     
@@ -39,7 +39,7 @@ namespace FriendlyPasswordGenerator.Properties {
         internal static global::System.Resources.ResourceManager ResourceManager {
             get {
                 if (object.ReferenceEquals(resourceMan, null)) {
-                    global::System.Resources.ResourceManager temp = new global::System.Resources.ResourceManager("FriendlyPasswordGenerator.Properties.Resources", typeof(Resources).Assembly);
+                    global::System.Resources.ResourceManager temp = new global::System.Resources.ResourceManager("FriendlyPasswordGenerator.Model.Properties.Resources", typeof(Resources).Assembly);
                     resourceMan = temp;
                 }
                 return resourceMan;
@@ -107,16 +107,11 @@ namespace FriendlyPasswordGenerator.Properties {
         ///ababil
         ///ababocado
         ///ababone
-        ///ababoni
-        ///ababosação
-        ///ababosar
-        ///ababosável
-        ///ababroar
-        ///aba [rest of string was truncated]&quot;;.
+        ///ababo [rest of string was truncated]&quot;;.
         /// </summary>
-        internal static string palavras {
+        internal static string FullBrazillianDictionary {
             get {
-                return ResourceManager.GetString("palavras", resourceCulture);
+                return ResourceManager.GetString("FullBrazillianDictionary", resourceCulture);
             }
         }
     }
