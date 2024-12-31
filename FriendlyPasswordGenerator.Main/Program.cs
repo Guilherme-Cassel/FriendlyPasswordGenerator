@@ -1,12 +1,13 @@
-namespace FriendlyPasswordGenerator.Main
+using FriendlyPasswordGenerator.View;
+
+namespace FriendlyPasswordGenerator.Main;
+
+internal static class Program
 {
-    internal static class Program
+    [STAThread]
+    static void Main()
     {
-        [STAThread]
-        static void Main()
-        {
-            ApplicationConfiguration.Initialize();
-            Application.Run(new MainForm());
-        }
+        ApplicationConfiguration.Initialize();
+        Application.Run(new MainForm());
     }
 }
