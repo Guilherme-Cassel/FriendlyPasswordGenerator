@@ -1,13 +1,13 @@
 ﻿using System.Globalization;
+using System.Text;
 
-namespace FriendlyPasswordGenerator;
+namespace FriendlyPasswordGenerator.Model;
 
-public class Randomizer
+public static class Randomizer
 {
-    public readonly Random @Random = new();
-    public bool AllowNonAsciiCaracters = false;
+    private static readonly Random @Random = new();
 
-    public string RandomSymbol()
+    public static string RandomSymbol()
     {
         string symbols = "!@#$%&*";
 
@@ -16,32 +16,40 @@ public class Randomizer
         return randomSymbol.ToString();
     }
 
-    public string RandomNumber()
+    public static string RandomNumber()
     {
         return @Random.Next(0, 10).ToString();
     }
 
-    public string RandomWord()
+    public static string RandomWord()
     {
-        //var file = Properties.Resources.palavras;
+        var file = Properties.Resources.FullBrazillianDictionary;
 
-        //var wordsList = file.Split('\n');
+        var wordsList = file.Split('\n');
 
-        //var word = ToPascalCase(wordsList[@Random.Next(0, wordsList.Length - 1)]);
+        var word = ToPascalCase(wordsList[@Random.Next(0, wordsList.Length - 1)]);
 
-        //if (word.Contains('-') ||
-        //    word.Contains('.'))
-        //    return RandomWord();
+        if (word.Contains('-') ||
+            word.Contains('.'))
+            return RandomWord();
 
-        //if (!AllowNonAsciiCaracters)
+        //if (!userSettings.AllowNonAsciiCaracters)
         //{
         //    if (word.Any(x => (int)x >= 128))
         //        return RandomWord();
         //}
 
-        //return ToPascalCase(word);
+        return ToPascalCase(word);
+    }
 
-        return "";
+    public static List<int> RandomPattern(int lenght = 3)
+    {
+        List<int> middle = [];
+        for (int j = 0; j < lenght; j++)
+        {
+            middle.Add(@Random.Next(0, 2));
+        }
+        return middle;
     }
 
     public static string ToPascalCase(string @string)

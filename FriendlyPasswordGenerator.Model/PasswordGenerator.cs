@@ -1,138 +1,96 @@
-﻿using System.Globalization;
+﻿using FriendlyPasswordGenerator.Model;
 using System.Text;
-using System.Threading.Tasks;
-using System.Threading;
 
 namespace FriendlyPasswordGenerator;
 
-public class PasswordGenerator : Randomizer
+public static class PasswordGenerator
 {
-    public string CurrentPassword = null!;
-    public int PasswordLenght = 40;
-    public int NumberOfWords = 3;
-    public const int TimeOutInSecondsPerWord = 5;
-
-    public async Task<string> GetNewPassword()
+    public static async Task<string> Run(UserSettings uS)
     {
-        Task timeoutTask = Task.Delay(Convert.ToInt32(CalculateTimeout() * 1000));
-        Task<string> task = Task.Run(GenerateNewPassword);
+        var fullPattern = await GetPasswordPattern(uS);
 
-        Task completedTask = await Task.WhenAny(task, timeoutTask);
 
-        if (completedTask == task)
-        {
-            // Task completed within timeout
-            return await task;
-        }
-        else
-        {
-            throw new TimeoutException($"""
-                Generation Timed Out!
-                Consider increasing the amount of words ({NumberOfWords}), or decreasing the minimum lenght ({PasswordLenght}).
-                """);
-        }
+        var password = await Global.RunWithTimeout
+            (
+                GetNewPassword(fullPattern),
+                CalculateTimeoutInMilliseconds(uS)
+            );
+
+
+
+
     }
 
-    private async Task<string> GenerateNewPassword()
+
+    private static async Task<string> GetNewPassword(List<int> Pattern)
     {
-        Dictionary<int, Func<string>> passwordPatternIndex = new()
-        {
-            {0, base.RandomSymbol},
-            {1, base.RandomNumber},
-            {2, base.RandomWord},
-        };
 
-        StringBuilder password = new();
-        List<int> pattern = RandomPattern();
 
-        foreach (var index in pattern)
-        {
-            var dictIndex = passwordPatternIndex.Where(x => x.Key == index).First();
+        //if (password.Length < PasswordLenght)
+        //    return await GetNewPassword();
 
-            password.Append(dictIndex.Value());
-        }
-
-        if (password.Length < PasswordLenght)
-            return await GenerateNewPassword();
-
-        CurrentPassword = password.ToString();
-        return password.ToString();
+        //CurrentPassword = password.ToString();
+        //return password.ToString();
     }
 
-    private List<int> RandomPattern()
+    private static async Task<List<int>> GetPasswordPattern(UserSettings uS)
     {
-        List<int> newInBetweenWordsPattern()
+        return await Task.Run(() =>
         {
-            List<int> middle = [];
-            for (int j = 0; j < 3; j++)
+            List<int> pattern = [];
+            for (int i = 0; i < uS.AmountOfWords; i++)
             {
-                middle.Add(Random.Next(0, 2));
+                pattern.AddRange(Randomizer.RandomPattern());
+                pattern.Add(2);
             }
-            return middle;
-        }
+            pattern.AddRange(Randomizer.RandomPattern());
 
-        List<int> pattern = [];
-        for (int i = 0; i < NumberOfWords; i++)
-        {
-            pattern.AddRange(newInBetweenWordsPattern());
-            pattern.Add(2);
-        }
-        pattern.AddRange(newInBetweenWordsPattern());
-
-        return pattern;
+            return pattern;
+        });
     }
 
-    private double CalculateTimeout()
+    private static int CalculateTimeoutInMilliseconds(UserSettings userSettings)
     {
         double baseTime = 5.0; // Base time for 40 characters and 3 words
         int baseLength = 40;
         int baseWordCount = 3;
 
         // Calculate the scaling factor
-        double lengthFactor = Math.Log(PasswordLenght + 1) / Math.Log(baseLength + 1);
-        double wordFactor = Math.Log(NumberOfWords + 1) / Math.Log(baseWordCount + 1);
+        double lengthFactor = Math.Log(userSettings.MinimumLenght + 1) / Math.Log(baseLength + 1);
+        double wordFactor = Math.Log(userSettings.AmountOfWords + 1) / Math.Log(baseWordCount + 1);
 
         // Combine the factors to estimate the timeout
         double estimatedTime = baseTime * lengthFactor * wordFactor;
 
         // Set a maximum timeout limit (e.g., 60 seconds)
         double maxTimeout = 60.0;
-        return Math.Min(estimatedTime, maxTimeout);
+        return (int)(Math.Min(estimatedTime, maxTimeout) * 1000);
     }
 
-    public void CopyPassword()
+    private static async Task<string> TranslatePattern(List<int> pattern)
     {
-        //Clipboard.SetText(CurrentPassword);
-        //ConsoleUtility.WriteOn($"Password Copied!", ConsoleColor.Red);
-    }
-
-    public void NewLenght()
-    {
-        //ConsoleUtility.WriteOn($"Write new Lenght (integer):", ConsoleColor.Blue);
-        PasswordLenght = Convert.ToInt32(Console.ReadLine());
-    }
-
-    public void NewAmoutOfWords()
-    {
-        //ConsoleUtility.WriteOn($"Write the new amount of Words (integer):",
-            //ConsoleColor.Blue);
-
-        var amount = Convert.ToInt32(Console.ReadLine());
-
-        if (amount <= 0)
+        static Func<string> IntToFunction(int a)
         {
-            //ConsoleUtility.WriteOn("O valor não pode ser zero",
-                //ConsoleColor.Yellow);
-            return;
+            return a switch
+            {
+                0 => Randomizer.RandomSymbol,
+                1 => Randomizer.RandomNumber,
+                2 => Randomizer.RandomWord,
+                _ => throw new InvalidDataException($"The following pattern Index doesn't exist: {a}"),
+            };
         }
 
-        NumberOfWords = amount;
+        return await Task.Run(() =>
+        {
+            StringBuilder result = new();
+
+            foreach (var index in pattern)
+            {
+                result.Append(IntToFunction(index)());
+            }
+
+            return result.ToString();
+        });
     }
 
-    public void ToggleAsciiCaracters()
-    {
-        AllowNonAsciiCaracters = !AllowNonAsciiCaracters;
-        //ConsoleUtility.WriteOn($"AllowNonAsciiCaracters = {AllowNonAsciiCaracters}",
-            //ConsoleColor.Blue);
-    }
 }

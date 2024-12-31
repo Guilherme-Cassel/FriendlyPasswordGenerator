@@ -2,7 +2,7 @@ using FriendlyPasswordGenerator.View;
 
 namespace FriendlyPasswordGenerator.Main;
 
-internal static class Program
+public static class Program
 {
     [STAThread]
     static void Main()

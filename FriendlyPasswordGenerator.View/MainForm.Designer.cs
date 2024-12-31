@@ -29,17 +29,17 @@ partial class MainForm
     private void InitializeComponent()
     {
         Button_GenerateNewPassword = new Button();
-        NumericPicke_AmountOfWords = new NumericUpDown();
+        NumericPicker_AmountOfWords = new NumericUpDown();
         label1 = new Label();
         groupBox1 = new GroupBox();
         CheckBox_AllowNonAsciiCaracters = new CheckBox();
         label2 = new Label();
-        NumericPicke_MinimumLenght = new NumericUpDown();
+        NumericPicker_MinimumLenght = new NumericUpDown();
         Button_PasswordHistory = new Button();
         Label_CurrentPassword = new Label();
-        ((System.ComponentModel.ISupportInitialize)NumericPicke_AmountOfWords).BeginInit();
+        ((System.ComponentModel.ISupportInitialize)NumericPicker_AmountOfWords).BeginInit();
         groupBox1.SuspendLayout();
-        ((System.ComponentModel.ISupportInitialize)NumericPicke_MinimumLenght).BeginInit();
+        ((System.ComponentModel.ISupportInitialize)NumericPicker_MinimumLenght).BeginInit();
         SuspendLayout();
         // 
         // Button_GenerateNewPassword
@@ -54,14 +54,14 @@ partial class MainForm
         Button_GenerateNewPassword.Text = "Generate New Password";
         Button_GenerateNewPassword.UseVisualStyleBackColor = false;
         // 
-        // NumericPicke_AmountOfWords
+        // NumericPicker_AmountOfWords
         // 
-        NumericPicke_AmountOfWords.Font = new Font("Segoe UI", 14.25F, FontStyle.Regular, GraphicsUnit.Point, 0);
-        NumericPicke_AmountOfWords.Location = new Point(17, 62);
-        NumericPicke_AmountOfWords.Maximum = new decimal(new int[] { 1000, 0, 0, 0 });
-        NumericPicke_AmountOfWords.Name = "NumericPicke_AmountOfWords";
-        NumericPicke_AmountOfWords.Size = new Size(120, 33);
-        NumericPicke_AmountOfWords.TabIndex = 3;
+        NumericPicker_AmountOfWords.Font = new Font("Segoe UI", 14.25F, FontStyle.Regular, GraphicsUnit.Point, 0);
+        NumericPicker_AmountOfWords.Location = new Point(17, 62);
+        NumericPicker_AmountOfWords.Maximum = new decimal(new int[] { 1000, 0, 0, 0 });
+        NumericPicker_AmountOfWords.Name = "NumericPicker_AmountOfWords";
+        NumericPicker_AmountOfWords.Size = new Size(120, 33);
+        NumericPicker_AmountOfWords.TabIndex = 3;
         // 
         // label1
         // 
@@ -78,9 +78,9 @@ partial class MainForm
         groupBox1.Anchor = AnchorStyles.Bottom | AnchorStyles.Left;
         groupBox1.Controls.Add(CheckBox_AllowNonAsciiCaracters);
         groupBox1.Controls.Add(label2);
-        groupBox1.Controls.Add(NumericPicke_MinimumLenght);
+        groupBox1.Controls.Add(NumericPicker_MinimumLenght);
         groupBox1.Controls.Add(label1);
-        groupBox1.Controls.Add(NumericPicke_AmountOfWords);
+        groupBox1.Controls.Add(NumericPicker_AmountOfWords);
         groupBox1.Font = new Font("Segoe UI", 14.25F, FontStyle.Regular, GraphicsUnit.Point, 0);
         groupBox1.Location = new Point(243, 191);
         groupBox1.Name = "groupBox1";
@@ -111,14 +111,14 @@ partial class MainForm
         label2.TabIndex = 7;
         label2.Text = "Minimum Lenght";
         // 
-        // NumericPicke_MinimumLenght
+        // NumericPicker_MinimumLenght
         // 
-        NumericPicke_MinimumLenght.Font = new Font("Segoe UI", 14.25F, FontStyle.Regular, GraphicsUnit.Point, 0);
-        NumericPicke_MinimumLenght.Location = new Point(240, 62);
-        NumericPicke_MinimumLenght.Maximum = new decimal(new int[] { 10000, 0, 0, 0 });
-        NumericPicke_MinimumLenght.Name = "NumericPicke_MinimumLenght";
-        NumericPicke_MinimumLenght.Size = new Size(120, 33);
-        NumericPicke_MinimumLenght.TabIndex = 6;
+        NumericPicker_MinimumLenght.Font = new Font("Segoe UI", 14.25F, FontStyle.Regular, GraphicsUnit.Point, 0);
+        NumericPicker_MinimumLenght.Location = new Point(240, 62);
+        NumericPicker_MinimumLenght.Maximum = new decimal(new int[] { 10000, 0, 0, 0 });
+        NumericPicker_MinimumLenght.Name = "NumericPicker_MinimumLenght";
+        NumericPicker_MinimumLenght.Size = new Size(120, 33);
+        NumericPicker_MinimumLenght.TabIndex = 6;
         // 
         // Button_PasswordHistory
         // 
@@ -155,21 +155,21 @@ partial class MainForm
         Controls.Add(Button_GenerateNewPassword);
         Name = "MainForm";
         Text = "Form1";
-        ((System.ComponentModel.ISupportInitialize)NumericPicke_AmountOfWords).EndInit();
+        ((System.ComponentModel.ISupportInitialize)NumericPicker_AmountOfWords).EndInit();
         groupBox1.ResumeLayout(false);
         groupBox1.PerformLayout();
-        ((System.ComponentModel.ISupportInitialize)NumericPicke_MinimumLenght).EndInit();
+        ((System.ComponentModel.ISupportInitialize)NumericPicker_MinimumLenght).EndInit();
         ResumeLayout(false);
     }
 
     #endregion
     private Button Button_GenerateNewPassword;
-    private NumericUpDown NumericPicke_AmountOfWords;
+    private NumericUpDown NumericPicker_AmountOfWords;
     private Label label1;
     private GroupBox groupBox1;
     private CheckBox CheckBox_AllowNonAsciiCaracters;
     private Label label2;
-    private NumericUpDown NumericPicke_MinimumLenght;
+    private NumericUpDown NumericPicker_MinimumLenght;
     private Button Button_PasswordHistory;
     private Label Label_CurrentPassword;
 }
