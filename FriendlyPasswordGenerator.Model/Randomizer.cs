@@ -27,19 +27,26 @@ public static class Randomizer
         });
     }
 
-    public static async Task<string> RandomWord()
+    public static async Task<string> RandomWord(bool allowNonAsciiCaracters)
     {
         return await Task.Run(async () =>
         {
             var file = Properties.Resources.FullBrazillianDictionary;
 
-            var wordsList = file.Split('\n');
+            var wordsList = file.Split("\r\n");
 
             var word = wordsList[@Random.Next(0, wordsList.Length - 1)];
 
-            if (word.Contains('-') ||
-                word.Contains('.'))
-                return await RandomWord();
+            if (word.Contains('-') || word.Contains('.'))
+            {
+                return await RandomWord(allowNonAsciiCaracters);
+            }
+
+            if (!allowNonAsciiCaracters)
+            {
+                if (word.Any(x => x >= 128))
+                    return await RandomWord(allowNonAsciiCaracters);
+            }
 
             return await ToPascalCase(word);
         });

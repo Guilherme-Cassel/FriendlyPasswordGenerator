@@ -8,26 +8,26 @@ public static class PasswordEncoder
     private const int NumberCode = 1;
     private const int WordCode = 2;
 
-    private static Task<string> TranslateCode(int code)
+    private static Task<string> TranslateCode(int code, UserSettings uS)
     {
         Task<string> result = code switch
         {
             SymbolCode => Randomizer.RandomSymbol(),
             NumberCode => Randomizer.RandomNumber(),
-            WordCode => Randomizer.RandomWord(),
+            WordCode => Randomizer.RandomWord(uS.AllowNonAsciiCaracters),
             _ => throw new InvalidDataException($"The following pattern Index doesn't exist: {code}"),
         };
 
         return result;
     }
 
-    public static async Task<string> TranslatePattern(List<int> pattern)
+    public static async Task<string> TranslatePattern(List<int> pattern, UserSettings uS)
     {
         StringBuilder result = new();
 
         foreach (var index in pattern)
         {
-            string? translatedValue = await TranslateCode(index);
+            string? translatedValue = await TranslateCode(index, uS);
             result.Append(translatedValue);
         }
 

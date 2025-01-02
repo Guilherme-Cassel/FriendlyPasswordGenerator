@@ -7,7 +7,6 @@ namespace FriendlyPasswordGenerator.View;
 public partial class MainForm : Form
 {
     public UserSettings UserSettings { get; set; }
-    public PasswordGenerator passwordGenerator { get; set; }
 
     public MainForm()
     {
@@ -15,8 +14,6 @@ public partial class MainForm : Form
 
         UserSettings = new();
         DownsyncUserSettings(null, null);
-
-        passwordGenerator = new();
 
         Label_CurrentPassword.Click += CopyLabelText;
         NumericPicker_AmountOfWords.ValueChanged += UpsyncUserSettings;
@@ -27,9 +24,30 @@ public partial class MainForm : Form
         Button_GenerateNewPassword.Click += Button_GenerateNewPassword_Click;
     }
 
-    private void Button_GenerateNewPassword_Click(object? sender, EventArgs e)
+    private async void Button_GenerateNewPassword_Click(object? sender, EventArgs e)
     {
-        
+        string value = string.Empty;
+
+        Label_CurrentPassword.ForeColor = Color.Red;
+        Label_CurrentPassword.Text = "Generating...";
+
+        try
+        {
+            value = await PasswordGenerator.Run(UserSettings);
+        }
+        catch (TimeoutException ex)
+        {
+            MessageBox.Show(ex.Message, "Generation Timeout", MessageBoxButtons.OK, MessageBoxIcon.Information);
+        }
+        catch (Exception ex)
+        {
+            MessageBox.Show(ex.Message, "Error Caught", MessageBoxButtons.OK, MessageBoxIcon.Error);
+        }
+        finally
+        {
+            Label_CurrentPassword.ForeColor = Color.Black;
+            Label_CurrentPassword.Text = value;
+        };
     }
 
     private async void CopyLabelText(object? sender, EventArgs e)
