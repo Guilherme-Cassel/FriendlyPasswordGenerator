@@ -154,6 +154,7 @@ partial class MainForm
         Controls.Add(groupBox1);
         Controls.Add(Button_GenerateNewPassword);
         Name = "MainForm";
+        StartPosition = FormStartPosition.CenterScreen;
         Text = "Form1";
         ((System.ComponentModel.ISupportInitialize)NumericPicker_AmountOfWords).EndInit();
         groupBox1.ResumeLayout(false);

@@ -57,6 +57,7 @@
             ClientSize = new Size(800, 450);
             Controls.Add(MainDataGridView);
             Name = "ListViewer";
+            StartPosition = FormStartPosition.CenterParent;
             Text = "ListViewer";
             ((System.ComponentModel.ISupportInitialize)MainDataGridView).EndInit();
             ((System.ComponentModel.ISupportInitialize)bindingSource1).EndInit();
