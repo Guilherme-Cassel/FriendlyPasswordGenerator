@@ -8,29 +8,22 @@ public static class PasswordGenerator
     public static async Task<string> Run(UserSettings uS)
     {
         var fullPattern = await GetPasswordPattern(uS);
+        var timeout = CalculateTimeoutInMilliseconds(uS);
 
-
-        var password = await Global.RunWithTimeout
-            (
-                GetNewPassword(fullPattern),
-                CalculateTimeoutInMilliseconds(uS)
+        var password = await Global.RunWithTimeout(
+            task: GetNewPassword(fullPattern),
+            timeout: timeout
             );
 
-
-
-
+        return password;
     }
 
 
     private static async Task<string> GetNewPassword(List<int> Pattern)
     {
+        string password = await PasswordEncoder.TranslatePattern(Pattern);
 
-
-        //if (password.Length < PasswordLenght)
-        //    return await GetNewPassword();
-
-        //CurrentPassword = password.ToString();
-        //return password.ToString();
+        return password;
     }
 
     private static async Task<List<int>> GetPasswordPattern(UserSettings uS)
@@ -66,31 +59,4 @@ public static class PasswordGenerator
         double maxTimeout = 60.0;
         return (int)(Math.Min(estimatedTime, maxTimeout) * 1000);
     }
-
-    private static async Task<string> TranslatePattern(List<int> pattern)
-    {
-        static Func<string> IntToFunction(int a)
-        {
-            return a switch
-            {
-                0 => Randomizer.RandomSymbol,
-                1 => Randomizer.RandomNumber,
-                2 => Randomizer.RandomWord,
-                _ => throw new InvalidDataException($"The following pattern Index doesn't exist: {a}"),
-            };
-        }
-
-        return await Task.Run(() =>
-        {
-            StringBuilder result = new();
-
-            foreach (var index in pattern)
-            {
-                result.Append(IntToFunction(index)());
-            }
-
-            return result.ToString();
-        });
-    }
-
 }
