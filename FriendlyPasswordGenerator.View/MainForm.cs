@@ -62,6 +62,9 @@ public partial class MainForm : Form
         if (sender is not Label label)
             return;
 
+        if (string.IsNullOrEmpty(label.Text))
+            return;
+
         if (label.Text == "Copied!")
             return;
 
