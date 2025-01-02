@@ -5,6 +5,8 @@ namespace FriendlyPasswordGenerator;
 
 public static class PasswordGenerator
 {
+    public static List<string> PasswordHistory = [];
+
     public static async Task<string> Run(UserSettings uS)
     {
         List<int> fullPattern = await GetPasswordPattern(uS);
@@ -14,6 +16,8 @@ public static class PasswordGenerator
             task: GetNewPassword(fullPattern, uS),
             timeout: timeout
             );
+
+        PasswordHistory.Add(password);
 
         return password;
     }

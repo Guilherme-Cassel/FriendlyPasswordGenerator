@@ -22,6 +22,13 @@ public partial class MainForm : Form
         UserSettings.PropertyChanged += DownsyncUserSettings;
 
         Button_GenerateNewPassword.Click += Button_GenerateNewPassword_Click;
+        Button_PasswordHistory.Click += Button_PasswordHistory_Click;
+    }
+
+    private void Button_PasswordHistory_Click(object? sender, EventArgs e)
+    {
+        Form a = new ListViewer(PasswordGenerator.PasswordHistory);
+        a.ShowDialog();
     }
 
     private async void Button_GenerateNewPassword_Click(object? sender, EventArgs e)
