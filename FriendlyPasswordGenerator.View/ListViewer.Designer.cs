@@ -58,7 +58,7 @@
             Controls.Add(MainDataGridView);
             Name = "ListViewer";
             StartPosition = FormStartPosition.CenterParent;
-            Text = "ListViewer";
+            Text = "Password History";
             ((System.ComponentModel.ISupportInitialize)MainDataGridView).EndInit();
             ((System.ComponentModel.ISupportInitialize)bindingSource1).EndInit();
             ResumeLayout(false);

@@ -155,7 +155,7 @@ partial class MainForm
         Controls.Add(Button_GenerateNewPassword);
         Name = "MainForm";
         StartPosition = FormStartPosition.CenterScreen;
-        Text = "Form1";
+        Text = "Friendly Password Generator";
         ((System.ComponentModel.ISupportInitialize)NumericPicker_AmountOfWords).EndInit();
         groupBox1.ResumeLayout(false);
         groupBox1.PerformLayout();
