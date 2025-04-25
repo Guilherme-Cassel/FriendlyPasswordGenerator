@@ -69,48 +69,4 @@ public static class PasswordGenerator
             return (int)(Math.Min(estimatedTime, maxTimeout) * 1000);
         });
     }
-
-    public static async Task<int> GetReasonablePasswordLength(int currentLength, int amoutOfWords)
-    {
-        //return await Task.Run(() =>
-        //{
-        double timeGoal = 5.0; //seconds
-        int newLength = currentLength;
-
-        if (await CalculateTimeoutInMilliseconds(newLength, amoutOfWords) == 5)
-            return currentLength;
-
-        Task<int> downward = Task.Run<int>(async () =>
-        {
-            var tempLenght = newLength;
-            var tempTime = await CalculateTimeoutInMilliseconds(newLength, amoutOfWords);
-
-            while (tempTime != timeGoal)
-            {
-                tempLenght--;
-
-                tempTime = await CalculateTimeoutInMilliseconds(newLength, amoutOfWords);
-            }
-            return tempLenght;
-        });
-
-        Task<int> upward = Task.Run<int>(async () =>
-        {
-            var tempLenght = newLength;
-            var tempTime = await CalculateTimeoutInMilliseconds(newLength, amoutOfWords);
-
-            while (tempTime != timeGoal)
-            {
-                tempLenght++;
-
-                tempTime = await CalculateTimeoutInMilliseconds(newLength, amoutOfWords);
-            }
-            return tempLenght;
-        });
-
-        Task<int> result = await Task.WhenAny(downward, upward);
-
-        return await result;
-        //});
-    }
 }

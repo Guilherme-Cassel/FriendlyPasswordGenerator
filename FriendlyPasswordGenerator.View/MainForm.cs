@@ -1,6 +1,4 @@
 using FriendlyPasswordGenerator.Model;
-using System.ComponentModel;
-using System.Threading.Tasks.Dataflow;
 
 namespace FriendlyPasswordGenerator.View;
 
@@ -71,12 +69,13 @@ public partial class MainForm : Form
         Clipboard.SetText(label.Text);
 
         using ToolTip _tooltip = new();
-        _tooltip.Show("Copied!", 
-            label, 
-            label.Location.X + (label.Width/2), 
-            label.Location.Y + (label.Height/2), 
+
+        _tooltip.Show("Copied!",
+            label,
+            label.Location.X + (label.Width / 2),
+            label.Location.Y + (label.Height / 2),
             1000);
 
-        await Task.Delay(500); // Optional, you can skip if there's nothing to reset now
+        await Task.Delay(500);
     }
 }
