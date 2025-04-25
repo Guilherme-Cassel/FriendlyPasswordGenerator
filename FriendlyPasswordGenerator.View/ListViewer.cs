@@ -16,7 +16,7 @@ namespace FriendlyPasswordGenerator.View
         {
             InitializeComponent();
 
-            DataTable table = new DataTable();
+            DataTable table = new();
             table.Columns.Add("Items", typeof(string));
 
             foreach (var item in items)

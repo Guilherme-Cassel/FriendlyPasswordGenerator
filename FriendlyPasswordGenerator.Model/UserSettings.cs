@@ -9,6 +9,7 @@ public class UserSettings : INotifyPropertyChanged
     private bool allowNonAsciiCaracters = false;
     private int amountOfWords = 3;
     private int minimumLenght = 40;
+    public bool AutoAdjustLenght = true;
 
     public bool AllowNonAsciiCaracters
     {

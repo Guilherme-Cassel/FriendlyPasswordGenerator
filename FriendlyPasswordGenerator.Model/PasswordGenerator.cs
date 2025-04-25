@@ -50,22 +50,67 @@ public static class PasswordGenerator
 
     private static async Task<int> CalculateTimeoutInMilliseconds(UserSettings userSettings)
     {
+        return await CalculateTimeoutInMilliseconds(userSettings.MinimumLenght, userSettings.AmountOfWords);
+    }
+
+    private static async Task<int> CalculateTimeoutInMilliseconds(int minimumLenght, int amountOfWords)
+    {
         return await Task.Run(() =>
         {
-            double baseTime = 5.0; // Base time for 40 characters and 3 words
-            int baseLength = 40;
-            int baseWordCount = 3;
-
             // Calculate the scaling factor
-            double lengthFactor = Math.Log(userSettings.MinimumLenght + 1) / Math.Log(baseLength + 1);
-            double wordFactor = Math.Log(userSettings.AmountOfWords + 1) / Math.Log(baseWordCount + 1);
+            double lengthFactor = Math.Log(minimumLenght + 1) / Math.Log(PasswordBase.BaseLength + 1);
+            double wordFactor = Math.Log(amountOfWords + 1) / Math.Log(PasswordBase.BaseWordCount + 1);
 
             // Combine the factors to estimate the timeout
-            double estimatedTime = baseTime * lengthFactor * wordFactor;
+            double estimatedTime = PasswordBase.BaseGenerationTime * lengthFactor * wordFactor;
 
             // Set a maximum timeout limit (e.g., 60 seconds)
             double maxTimeout = 60.0;
             return (int)(Math.Min(estimatedTime, maxTimeout) * 1000);
         });
+    }
+
+    public static async Task<int> GetReasonablePasswordLength(int currentLength, int amoutOfWords)
+    {
+        //return await Task.Run(() =>
+        //{
+        double timeGoal = 5.0; //seconds
+        int newLength = currentLength;
+
+        if (await CalculateTimeoutInMilliseconds(newLength, amoutOfWords) == 5)
+            return currentLength;
+
+        Task<int> downward = Task.Run<int>(async () =>
+        {
+            var tempLenght = newLength;
+            var tempTime = await CalculateTimeoutInMilliseconds(newLength, amoutOfWords);
+
+            while (tempTime != timeGoal)
+            {
+                tempLenght--;
+
+                tempTime = await CalculateTimeoutInMilliseconds(newLength, amoutOfWords);
+            }
+            return tempLenght;
+        });
+
+        Task<int> upward = Task.Run<int>(async () =>
+        {
+            var tempLenght = newLength;
+            var tempTime = await CalculateTimeoutInMilliseconds(newLength, amoutOfWords);
+
+            while (tempTime != timeGoal)
+            {
+                tempLenght++;
+
+                tempTime = await CalculateTimeoutInMilliseconds(newLength, amoutOfWords);
+            }
+            return tempLenght;
+        });
+
+        Task<int> result = await Task.WhenAny(downward, upward);
+
+        return await result;
+        //});
     }
 }

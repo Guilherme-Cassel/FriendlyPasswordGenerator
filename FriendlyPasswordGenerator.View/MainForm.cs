@@ -6,29 +6,31 @@ namespace FriendlyPasswordGenerator.View;
 
 public partial class MainForm : Form
 {
-    public UserSettings UserSettings { get; set; }
+    public UserSettings UserSettings { get; set; } = new();
 
     public MainForm()
     {
         InitializeComponent();
 
-        UserSettings = new();
-        DownsyncUserSettings(null, null);
+        Load += MainForm_Load;
 
         Label_CurrentPassword.Click += CopyLabelText;
-        NumericPicker_AmountOfWords.ValueChanged += UpsyncUserSettings;
-        NumericPicker_MinimumLenght.ValueChanged += UpsyncUserSettings;
-        CheckBox_AllowNonAsciiCaracters.CheckedChanged += UpsyncUserSettings;
-        UserSettings.PropertyChanged += DownsyncUserSettings;
 
         Button_GenerateNewPassword.Click += Button_GenerateNewPassword_Click;
         Button_PasswordHistory.Click += Button_PasswordHistory_Click;
     }
 
+    private void MainForm_Load(object? sender, EventArgs e)
+    {
+        NumericPicker_AmountOfWords.DataBindings.Add("Value", UserSettings, nameof(UserSettings.AmountOfWords), false, DataSourceUpdateMode.OnPropertyChanged);
+        NumericPicker_MinimumLenght.DataBindings.Add("Value", UserSettings, nameof(UserSettings.MinimumLenght), false, DataSourceUpdateMode.OnPropertyChanged);
+        CheckBox_AllowNonAsciiCaracters.DataBindings.Add("Checked", UserSettings, nameof(UserSettings.AllowNonAsciiCaracters), false, DataSourceUpdateMode.OnPropertyChanged);
+    }
+
     private void Button_PasswordHistory_Click(object? sender, EventArgs e)
     {
-        Form a = new ListViewer(PasswordGenerator.PasswordHistory);
-        a.ShowDialog();
+        Form viewer = new ListViewer(PasswordGenerator.PasswordHistory);
+        viewer.ShowDialog();
     }
 
     private async void Button_GenerateNewPassword_Click(object? sender, EventArgs e)
@@ -40,6 +42,8 @@ public partial class MainForm : Form
 
         try
         {
+            Button_GenerateNewPassword.Enabled = false;
+
             value = await PasswordGenerator.Run(UserSettings);
         }
         catch (TimeoutException ex)
@@ -54,7 +58,9 @@ public partial class MainForm : Form
         {
             Label_CurrentPassword.ForeColor = Color.Black;
             Label_CurrentPassword.Text = value;
-        };
+
+            Button_GenerateNewPassword.Enabled = true;
+        }
     }
 
     private async void CopyLabelText(object? sender, EventArgs e)
@@ -62,43 +68,15 @@ public partial class MainForm : Form
         if (sender is not Label label)
             return;
 
-        if (string.IsNullOrEmpty(label.Text))
-            return;
-
-        if (label.Text == "Copied!")
-            return;
-
         Clipboard.SetText(label.Text);
 
-        var bkpText = label.Text;
-        var bkpColor = label.ForeColor;
+        using ToolTip _tooltip = new();
+        _tooltip.Show("Copied!", 
+            label, 
+            label.Location.X + (label.Width/2), 
+            label.Location.Y + (label.Height/2), 
+            1000);
 
-        label.ForeColor = Color.Green;
-        label.Text = "Copied!";
-
-        await Task.Delay(500);
-
-        label.Text = bkpText;
-        label.ForeColor = bkpColor;
-    }
-
-    private async void DownsyncUserSettings(object? sender, PropertyChangedEventArgs? e)
-    {
-        await Task.Run(() =>
-        {
-            NumericPicker_MinimumLenght.Value = UserSettings.MinimumLenght;
-            NumericPicker_AmountOfWords.Value = UserSettings.AmountOfWords;
-            CheckBox_AllowNonAsciiCaracters.Checked = UserSettings.AllowNonAsciiCaracters;
-        });
-    }
-
-    public async void UpsyncUserSettings(object? sender, EventArgs e)
-    {
-        await Task.Run(() =>
-        {
-            UserSettings.MinimumLenght = (int)NumericPicker_MinimumLenght.Value;
-            UserSettings.AmountOfWords = (int)NumericPicker_AmountOfWords.Value;
-            UserSettings.AllowNonAsciiCaracters = CheckBox_AllowNonAsciiCaracters.Checked;
-        });
+        await Task.Delay(500); // Optional, you can skip if there's nothing to reset now
     }
 }
