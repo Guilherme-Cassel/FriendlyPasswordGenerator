@@ -31,6 +31,7 @@
             components = new System.ComponentModel.Container();
             MainDataGridView = new DataGridView();
             bindingSource1 = new BindingSource(components);
+            Password = new DataGridViewTextBoxColumn();
             ((System.ComponentModel.ISupportInitialize)MainDataGridView).BeginInit();
             ((System.ComponentModel.ISupportInitialize)bindingSource1).BeginInit();
             SuspendLayout();
@@ -42,6 +43,7 @@
             MainDataGridView.Anchor = AnchorStyles.Top | AnchorStyles.Bottom | AnchorStyles.Left | AnchorStyles.Right;
             MainDataGridView.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             MainDataGridView.ColumnHeadersVisible = false;
+            MainDataGridView.Columns.AddRange(new DataGridViewColumn[] { Password });
             MainDataGridView.Location = new Point(12, 12);
             MainDataGridView.Name = "MainDataGridView";
             MainDataGridView.ReadOnly = true;
@@ -49,6 +51,13 @@
             MainDataGridView.RowHeadersWidthSizeMode = DataGridViewRowHeadersWidthSizeMode.DisableResizing;
             MainDataGridView.Size = new Size(776, 426);
             MainDataGridView.TabIndex = 0;
+            // 
+            // Password
+            // 
+            Password.AutoSizeMode = DataGridViewAutoSizeColumnMode.Fill;
+            Password.HeaderText = "Senha";
+            Password.Name = "Password";
+            Password.ReadOnly = true;
             // 
             // ListViewer
             // 
@@ -68,5 +77,6 @@
 
         private DataGridView MainDataGridView;
         private BindingSource bindingSource1;
+        private DataGridViewTextBoxColumn Password;
     }
 }

@@ -74,7 +74,7 @@ public partial class MainForm : Form
             label,
             label.Location.X + (label.Width / 2),
             label.Location.Y + (label.Height / 2),
-            1000);
+            500);
 
         await Task.Delay(500);
     }
