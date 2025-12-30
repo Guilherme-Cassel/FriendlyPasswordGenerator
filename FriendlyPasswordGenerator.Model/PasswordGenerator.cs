@@ -1,5 +1,4 @@
 ﻿using FriendlyPasswordGenerator.Model;
-using System.Text;
 
 namespace FriendlyPasswordGenerator;
 

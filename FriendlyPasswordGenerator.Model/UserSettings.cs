@@ -11,6 +11,7 @@ public class UserSettings : INotifyPropertyChanged
     private int minimumLenght = 40;
     public bool AutoAdjustLenght = true;
 
+
     public bool AllowNonAsciiCaracters
     {
         get => allowNonAsciiCaracters;

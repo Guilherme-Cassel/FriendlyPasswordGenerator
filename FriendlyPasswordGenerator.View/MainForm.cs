@@ -13,7 +13,6 @@ public partial class MainForm : Form
         Load += MainForm_Load;
 
         Label_CurrentPassword.Click += CopyLabelText;
-
         Button_GenerateNewPassword.Click += Button_GenerateNewPassword_Click;
         Button_PasswordHistory.Click += Button_PasswordHistory_Click;
     }

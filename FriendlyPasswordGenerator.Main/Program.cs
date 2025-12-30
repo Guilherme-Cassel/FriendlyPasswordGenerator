@@ -1,5 +1,3 @@
-using FriendlyPasswordGenerator.View;
-
 namespace FriendlyPasswordGenerator.Main;
 
 public static class Program
@@ -8,6 +6,6 @@ public static class Program
     static void Main()
     {
         ApplicationConfiguration.Initialize();
-        Application.Run(new MainForm());
+        Application.Run(new FormPasswordGenerator());
     }
 }
